@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ceya Math</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#ffd9ea,#e7dcff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+    color:#403442;
+    overflow:hidden;
+}
+
+/* =========================
+   BACKGROUND FLOATING
+========================= */
+
+.floating{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+}
+
+.float{
+    position:absolute;
+    bottom:-60px;
+    font-weight:bold;
+    opacity:.55;
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+
+    0%{
+        transform:translateY(0) rotate(0deg);
+        opacity:0;
+    }
+
+    10%{
+        opacity:.65;
+    }
+
+    90%{
+        opacity:.5;
+    }
+
+    100%{
+        transform:translateY(-110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container{
+    position:relative;
+    z-index:2;
+
+    width:100%;
+    max-width:430px;
+
+    background:rgba(255,255,255,.94);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    box-shadow:
+        0 20px 50px rgba(100,60,100,.22);
+
+    text-align:center;
+
+    max-height:94vh;
+    overflow-y:auto;
+}
+
+.container::-webkit-scrollbar{
+    width:0;
+}
+
+
+/* =========================
+   SCREEN
+========================= */
+
+#gameScreen,
+#resultScreen{
+    display:none;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+    font-size:36px;
+    font-weight:900;
+    color:#d34f82;
+    margin-bottom:4px;
+    letter-spacing:-1px;
+}
+
+.logo small{
+    display:block;
+    font-size:14px;
+    color:#a37b93;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-top:4px;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.homeDecor{
+    font-size:42px;
+    margin:5px 0 10px;
+    animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.subtitle{
+    color:#8b7184;
+    font-size:17px;
+    margin-bottom:25px;
+}
+
+.welcome{
+    font-size:18px;
+    font-weight:bold;
+    color:#604b5b;
+    line-height:1.5;
+}
+
+.mysteryBox{
+    background:linear-gradient(
+        135deg,
+        #fff0f7,
+        #f1e8ff
+    );
+
+    border-radius:20px;
+
+    padding:17px;
+
+    margin:18px 0;
+
+    color:#775d70;
+
+    font-size:14px;
+
+    border:2px solid #f0d4e5;
+}
+
+.rules{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+
+    margin:15px 0 22px;
+}
+
+.rule{
+    background:#fff1f6;
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+    color:#8d5874;
+}
+
+.startButton{
+    border:none;
+
+    padding:16px 45px;
+
+    border-radius:35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d45183,
+            #9655c9
+        );
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 20px rgba(150,70,130,.3);
+
+    transition:.2s;
+}
+
+.startButton:hover{
+    transform:translateY(-2px);
+}
+
+.startButton:active{
+    transform:scale(.94);
+}
+
+
+/* =========================
+   GAME HEADER
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1.2fr 1fr;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.stat{
+    background:#fff0f6;
+    border-radius:17px;
+    padding:9px 5px;
+    font-size:12px;
+    font-weight:900;
+}
+
+.statTitle{
+    display:block;
+    color:#765769;
+}
+
+.statValue{
+    display:block;
+    font-size:20px;
+    margin-top:5px;
+}
+
+
+/* =========================
+   HEARTS
+========================= */
+
+.hearts{
+    display:flex;
+    justify-content:center;
+    gap:3px;
+    margin-top:4px;
+}
+
+.heart{
+    width:25px;
+    height:25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+
+    transition:.25s;
+}
+
+.heart.empty{
+    filter:grayscale(1);
+    opacity:.25;
+    transform:scale(.85);
+}
+
+
+/* =========================
+   QUESTION INFO
+========================= */
+
+.questionInfo{
+    background:#f0e5ff;
+
+    color:#76509c;
+
+    border-radius:17px;
+
+    padding:12px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+}
+
+.progressBackground{
+    width:100%;
+    height:9px;
+
+    background:#eee0e9;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-bottom:15px;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #dd5688,
+            #9c59cb
+        );
+
+    transition:.3s;
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+.timer{
+    display:inline-block;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    color:#d44776;
+
+    background:#fff0f6;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    margin-bottom:12px;
+}
+
+.timer.warning{
+    animation:timerPulse .5s infinite alternate;
+}
+
+@keyframes timerPulse{
+
+    from{
+        transform:scale(1);
+    }
+
+    to{
+        transform:scale(1.08);
+    }
+}
+
+
+/* =========================
+   QUESTION
+========================= */
+
+.question{
+    background:#fff7fa;
+
+    border:3px solid #efc1d2;
+
+    border-radius:22px;
+
+    padding:25px 10px;
+
+    font-size:31px;
+
+    font-weight:900;
+
+    margin-bottom:18px;
+
+    min-height:95px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* =========================
+   ANSWERS
+========================= */
+
+.answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.answer{
+    border:none;
+
+    border-radius:17px;
+
+    padding:16px 8px;
+
+    background:#f6c9dc;
+
+    color:#4a3642;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+.answer:hover{
+    transform:translateY(-2px);
+    background:#f2b8d2;
+}
+
+.answer:active{
+    transform:scale(.94);
+}
+
+.answer.correct{
+    background:#9be2ac;
+    animation:correctPop .35s;
+}
+
+.answer.wrong{
+    background:#f39a9a;
+    animation:wrongShake .35s;
+}
+
+@keyframes correctPop{
+
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+@keyframes wrongShake{
+
+    25%{
+        transform:translateX(-5px);
+    }
+
+    75%{
+        transform:translateX(5px);
+    }
+}
+
+.message{
+    min-height:28px;
+
+    margin-top:15px;
+
+    font-weight:900;
+
+    color:#79576b;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.resultIcon{
+    font-size:70px;
+    margin-top:10px;
+}
+
+.resultTitle{
+    color:#d34f82;
+    font-size:32px;
+    margin:8px 0;
+}
+
+.finalScore{
+    font-size:44px;
+
+    font-weight:900;
+
+    color:#d34f82;
+
+    margin:10px;
+}
+
+.resultCard{
+    background:#fff1f6;
+
+    border-radius:20px;
+
+    padding:15px;
+
+    margin:15px 0;
+
+    line-height:1.8;
+}
+
+.resultButtons{
+    margin-top:15px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:380px){
+
+    .container{
+        padding:20px;
+    }
+
+    .logo{
+        font-size:31px;
+    }
+
+    .question{
+        font-size:27px;
+    }
+
+    .answer{
+        font-size:17px;
+        padding:14px 5px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- FLOATING BACKGROUND -->
+
+<div class="floating">
+
+    <span class="float" style="left:5%;animation-duration:9s;animation-delay:0s;">♡</span>
+
+    <span class="float" style="left:17%;animation-duration:12s;animation-delay:2s;">+</span>
+
+    <span class="float" style="left:30%;animation-duration:10s;animation-delay:4s;">✦</span>
+
+    <span class="float" style="left:45%;animation-duration:13s;animation-delay:1s;">×</span>
+
+    <span class="float" style="left:58%;animation-duration:9s;animation-delay:3s;">♡</span>
+
+    <span class="float" style="left:70%;animation-duration:11s;animation-delay:5s;">÷</span>
+
+    <span class="float" style="left:84%;animation-duration:14s;animation-delay:1s;">♥</span>
+
+    <span class="float" style="left:94%;animation-duration:10s;animation-delay:6s;">=</span>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<div id="homeScreen">
+
+    <div class="homeDecor">
+        ✨ 🧮 ✨
+    </div>
+
+    <div class="logo">
+        Ceya Math
+        <small>MATH CHALLENGE</small>
+    </div>
+
+    <div class="subtitle">
+        A little challenge for you ♡
+    </div>
+
+    <div class="welcome">
+        Siap menguji seberapa cepat
+        otakmu berpikir? 🧠✨
+    </div>
+
+    <div class="mysteryBox">
+
+        🎀 <b>15 soal rahasia</b> 🎀
+        <br><br>
+
+        Jangan khawatir...
+        Kamu tidak akan tahu
+        soal berikutnya sampai muncul! 👀
+
+    </div>
+
+    <div class="rules">
+
+        <div class="rule">
+            ⏱️ 15 detik
+        </div>
+
+        <div class="rule">
+            ⭐ Score
+        </div>
+
+        <div class="rule">
+            🔥 Combo
+        </div>
+
+        <div class="rule">
+            ❤️ 3 Lives
+        </div>
+
+    </div>
+
+    <button
+        class="startButton"
+        id="startButton">
+
+        START ✨
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<div id="gameScreen">
+
+    <div class="logo">
+        🧮 Ceya Math
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <span class="statTitle">
+                ⭐ SCORE
+            </span>
+
+            <span
+                class="statValue"
+                id="score">
+
+                0
+
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span class="statTitle">
+                ❤️ LIVES
+            </span>
+
+            <div
+                class="hearts"
+                id="hearts">
+
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span class="statTitle">
+                🔥 COMBO
+            </span>
+
+            <span
+                class="statValue"
+                id="combo">
+
+                0
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="questionInfo">
+
+        SOAL
+        <span id="questionNumber">
+            1
+        </span>
+
+        / 15
+
+    </div>
+
+
+    <div class="progressBackground">
+
+        <div
+            class="progress"
+            id="progress">
+        </div>
+
+    </div>
+
+
+    <div
+        class="timer"
+        id="timerBox">
+
+        ⏱️
+        <span id="timer">
+            15
+        </span>
+
+        detik
+
+    </div>
+
+
+    <div
+        class="question"
+        id="question">
+
+        1 + 1 = ?
+
+    </div>
+
+
+    <div
+        class="answers"
+        id="answers">
+    </div>
+
+
+    <div
+        class="message"
+        id="message">
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<div id="resultScreen">
+
+    <div
+        class="resultIcon"
+        id="resultIcon">
+
+        🏆
+
+    </div>
+
+
+    <h1
+        class="resultTitle"
+        id="resultTitle">
+
+        YOU WIN!
+
+    </h1>
+
+
+    <p>
+        Hasil tantanganmu ✨
+    </p>
+
+
+    <div class="finalScore">
+
+        ⭐
+        <span id="finalScore">
+            0
+        </span>
+
+    </div>
+
+
+    <div class="resultCard">
+
+        Jawaban benar:
+        <b id="correctCount">
+            0
+        </b>
+        / 15
+
+        <br>
+
+        Combo terbaik:
+        🔥
+        <b id="bestCombo">
+            0
+        </b>
+
+    </div>
+
+
+    <button
+        class="startButton"
+        id="restartButton">
+
+        MAIN LAGI 🔄
+
+    </button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let score = 0;
+
+let lives = 3;
+
+let combo = 0;
+
+let bestCombo = 0;
+
+let correctCount = 0;
+
+let questionNumber = 0;
+
+let correctAnswer = 0;
+
+let time = 15;
+
+let timer = null;
+
+let locked = false;
+
+
+/* =========================
+   QUESTIONS
+========================= */
+
+const questions = [
+
+    /* SD */
+
+    {
+        level:"SD",
+        question:"25 + 37 = ?",
+        answer:62,
+        choices:[52,62,72,82]
+    },
+
+    {
+        level:"SD",
+        question:"8 × 7 = ?",
+        answer:56,
+        choices:[48,54,56,64]
+    },
+
+    {
+        level:"SD",
+        question:"144 ÷ 12 = ?",
+        answer:12,
+        choices:[10,11,12,14]
+    },
+
+    {
+        level:"SD",
+        question:"3/4 dari 20 = ?",
+        answer:15,
+        choices:[10,12,15,18]
+    },
+
+    {
+        level:"SD",
+        question:"Keliling persegi sisi 9 cm = ?",
+        answer:36,
+        choices:[18,27,36,45]
+    },
+
+
+    /* SMP */
+
+    {
+        level:"SMP",
+        question:"2x + 6 = 16. Nilai x = ?",
+        answer:5,
+        choices:[3,4,5,6]
+    },
+
+    {
+        level:"SMP",
+        question:"√144 + 5 = ?",
+        answer:17,
+        choices:[15,16,17,18]
+    },
+
+    {
+        level:"SMP",
+        question:"Jika a = 4, maka 2a² = ?",
+        answer:32,
+        choices:[16,24,32,36]
+    },
+
+    {
+        level:"SMP",
+        question:"Luas lingkaran r = 7 cm (π = 22/7) = ?",
+        answer:154,
+        choices:[144,154,164,174]
+    },
+
+    {
+        level:"SMP",
+        question:"3x - 7 = 14. Nilai x = ?",
+        answer:7,
+        choices:[5,6,7,8]
+    },
+
+
+    /* SMA */
+
+    {
+        level:"SMA",
+        question:"x² - 5x + 6 = 0. Akar-akarnya?",
+        answer:"2 dan 3",
+        choices:[
+            "1 dan 6",
+            "2 dan 3",
+            "3 dan 4",
+            "1 dan 5"
+        ]
+    },
+
+    {
+        level:"SMA",
+        question:"Turunan f(x) = x² adalah?",
+        answer:"2x",
+        choices:[
+            "x",
+            "2x",
+            "x²",
+            "2"
+        ]
+    },
+
+    {
+        level:"SMA",
+        question:"Jika log₂ 8 = x, maka x = ?",
+        answer:3,
+        choices:[2,3,4,8]
+    },
+
+    {
+        level:"SMA",
+        question:"lim x→2 (x² + 3) = ?",
+        answer:7,
+        choices:[5,6,7,8]
+    },
+
+    {
+        level:"SMA",
+        question:"Jika sin 30° = ?",
+        answer:"1/2",
+        choices:[
+            "1/4",
+            "1/2",
+            "√2/2",
+            "√3/2"
+        ]
+    }
+
+];
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const startButton =
+    document.getElementById("startButton");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+
+/* =========================
+   BUTTON
+========================= */
+
+startButton.addEventListener(
+    "click",
+    startGame
+);
+
+restartButton.addEventListener(
+    "click",
+    startGame
+);
+
+
+/* =========================
+   START
+========================= */
+
+function startGame(){
+
+    score = 0;
+
+    lives = 3;
+
+    combo = 0;
+
+    bestCombo = 0;
+
+    correctCount = 0;
+
+    questionNumber = 0;
+
+    locked = false;
+
+    clearInterval(timer);
+
+    document.getElementById("homeScreen")
+        .style.display = "none";
+
+    document.getElementById("resultScreen")
+        .style.display = "none";
+
+    document.getElementById("gameScreen")
+        .style.display = "block";
+
+    document.getElementById("message")
+        .textContent = "";
+
+    updateStats();
+
+    nextQuestion();
+}
+
+
+/* =========================
+   UPDATE STATS
+========================= */
+
+function updateStats(){
+
+    document.getElementById("score")
+        .textContent = score;
+
+    document.getElementById("combo")
+        .textContent = combo;
+
+    document.getElementById("questionNumber")
+        .textContent = questionNumber;
+
+    document.getElementById("progress")
+        .style.width =
+        (questionNumber / 15 * 100) + "%";
+
+
+    const hearts =
+        document.querySelectorAll(".heart");
+
+    hearts.forEach((heart,index)=>{
+
+        if(index < lives){
+
+            heart.classList.remove("empty");
+
+        }else{
+
+            heart.classList.add("empty");
+
+        }
+
+    });
+}
+
+
+/* =========================
+   NEXT QUESTION
+========================= */
+
+function nextQuestion(){
+
+    clearInterval(timer);
+
+    locked = false;
+
+    if(questionNumber >= questions.length){
+
+        winGame();
+
+        return;
+    }
+
+    questionNumber++;
+
+    const current =
+        questions[questionNumber - 1];
+
+
+    document.getElementById("question")
+        .textContent = current.question;
+
+   
