@@ -10,33 +10,35 @@
 
 *{
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
     margin:0;
+    padding:0;
     width:100%;
     min-height:100%;
 }
 
 body{
-    min-height:100vh;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#ffd9ea,#e7dcff);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:15px;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#ffdcec,#eadfff);
     color:#403442;
-    overflow:hidden;
+    overflow-x:hidden;
+    min-height:100vh;
 }
 
+
 /* =========================
-   BACKGROUND FLOATING
+   FLOATING BACKGROUND
 ========================= */
 
 .floating{
     position:fixed;
-    inset:0;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
     pointer-events:none;
     overflow:hidden;
     z-index:0;
@@ -45,8 +47,8 @@ body{
 .float{
     position:absolute;
     bottom:-60px;
-    font-weight:bold;
     opacity:.55;
+    font-weight:bold;
     animation:floatUp linear infinite;
 }
 
@@ -58,48 +60,54 @@ body{
     }
 
     10%{
-        opacity:.65;
+        opacity:.55;
     }
 
     90%{
-        opacity:.5;
+        opacity:.4;
     }
 
     100%{
-        transform:translateY(-110vh) rotate(360deg);
+        transform:translateY(-115vh) rotate(360deg);
         opacity:0;
     }
+
 }
 
 
 /* =========================
-   MAIN CONTAINER
+   MAIN
 ========================= */
 
-.container{
+.page{
     position:relative;
-    z-index:2;
+    z-index:1;
 
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:18px;
+}
+
+
+.container{
     width:100%;
     max-width:430px;
 
-    background:rgba(255,255,255,.94);
+    background:rgba(255,255,255,.96);
 
     border-radius:30px;
 
     padding:25px;
 
     box-shadow:
-        0 20px 50px rgba(100,60,100,.22);
+        0 20px 50px rgba(90,60,100,.20);
 
     text-align:center;
-
-    max-height:94vh;
-    overflow-y:auto;
-}
-
-.container::-webkit-scrollbar{
-    width:0;
 }
 
 
@@ -118,20 +126,22 @@ body{
 ========================= */
 
 .logo{
-    font-size:36px;
+    font-size:38px;
     font-weight:900;
+
     color:#d34f82;
-    margin-bottom:4px;
-    letter-spacing:-1px;
+
+    margin-bottom:5px;
 }
 
-.logo small{
-    display:block;
-    font-size:14px;
-    color:#a37b93;
-    font-weight:bold;
-    letter-spacing:2px;
-    margin-top:4px;
+.logoEmoji{
+    font-size:35px;
+}
+
+.subtitle{
+    color:#8b7184;
+    font-size:17px;
+    margin-bottom:22px;
 }
 
 
@@ -139,86 +149,51 @@ body{
    HOME
 ========================= */
 
-.homeDecor{
-    font-size:42px;
-    margin:5px 0 10px;
-    animation:bounce 2s infinite;
+.homeText{
+    font-size:16px;
+    line-height:1.6;
 }
 
-@keyframes bounce{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-8px);
-    }
-}
-
-.subtitle{
-    color:#8b7184;
-    font-size:17px;
-    margin-bottom:25px;
-}
-
-.welcome{
-    font-size:18px;
-    font-weight:bold;
-    color:#604b5b;
-    line-height:1.5;
-}
-
-.mysteryBox{
-    background:linear-gradient(
-        135deg,
-        #fff0f7,
-        #f1e8ff
-    );
+.homeBubble{
+    background:#fff1f7;
 
     border-radius:20px;
 
-    padding:17px;
+    padding:14px;
 
     margin:18px 0;
 
-    color:#775d70;
+    color:#76556a;
 
-    font-size:14px;
-
-    border:2px solid #f0d4e5;
-}
-
-.rules{
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    flex-wrap:wrap;
-
-    margin:15px 0 22px;
-}
-
-.rule{
-    background:#fff1f6;
-    padding:8px 12px;
-    border-radius:20px;
-    font-size:13px;
     font-weight:bold;
-    color:#8d5874;
 }
+
+.mystery{
+    font-size:25px;
+    margin:15px 0;
+    letter-spacing:5px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
 
 .startButton{
+
+    width:90%;
+
     border:none;
 
-    padding:16px 45px;
+    padding:16px 30px;
 
-    border-radius:35px;
+    border-radius:30px;
 
     background:
         linear-gradient(
             135deg,
             #d45183,
-            #9655c9
+            #9855ca
         );
 
     color:white;
@@ -230,13 +205,9 @@ body{
     cursor:pointer;
 
     box-shadow:
-        0 8px 20px rgba(150,70,130,.3);
+        0 8px 20px rgba(150,70,130,.30);
 
-    transition:.2s;
-}
-
-.startButton:hover{
-    transform:translateY(-2px);
+    transition:.15s;
 }
 
 .startButton:active{
@@ -245,87 +216,101 @@ body{
 
 
 /* =========================
-   GAME HEADER
+   STATS
 ========================= */
 
 .stats{
+
     display:grid;
-    grid-template-columns:1fr 1.2fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
     gap:8px;
+
     margin-bottom:15px;
 }
 
 .stat{
+
     background:#fff0f6;
+
     border-radius:17px;
-    padding:9px 5px;
+
+    padding:10px 5px;
+
     font-size:12px;
-    font-weight:900;
+
+    font-weight:bold;
+
+    min-height:70px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
 }
 
-.statTitle{
-    display:block;
-    color:#765769;
-}
+.stat span{
 
-.statValue{
     display:block;
-    font-size:20px;
+
+    font-size:21px;
+
     margin-top:5px;
 }
 
 
 /* =========================
-   HEARTS
+   LEVEL
 ========================= */
 
-.hearts{
-    display:flex;
-    justify-content:center;
-    gap:3px;
-    margin-top:4px;
-}
+.level{
 
-.heart{
-    width:25px;
-    height:25px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:20px;
-
-    transition:.25s;
-}
-
-.heart.empty{
-    filter:grayscale(1);
-    opacity:.25;
-    transform:scale(.85);
-}
-
-
-/* =========================
-   QUESTION INFO
-========================= */
-
-.questionInfo{
     background:#f0e5ff;
 
     color:#76509c;
 
     border-radius:17px;
 
-    padding:12px;
+    padding:11px;
 
-    font-weight:900;
+    font-weight:bold;
 
     margin-bottom:12px;
 }
 
+.difficulty{
+
+    display:inline-block;
+
+    padding:5px 13px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+
+    background:#fff;
+
+    color:#76509c;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
 .progressBackground{
+
     width:100%;
+
     height:9px;
 
     background:#eee0e9;
@@ -338,7 +323,9 @@ body{
 }
 
 .progress{
+
     width:0%;
+
     height:100%;
 
     background:
@@ -357,33 +344,25 @@ body{
 ========================= */
 
 .timer{
-    display:inline-block;
 
     font-size:24px;
 
-    font-weight:900;
+    font-weight:bold;
 
     color:#d44776;
-
-    background:#fff0f6;
-
-    padding:8px 18px;
-
-    border-radius:30px;
 
     margin-bottom:12px;
 }
 
 .timer.warning{
-    animation:timerPulse .5s infinite alternate;
+    color:#e53935;
+    animation:pulse .5s infinite alternate;
 }
 
-@keyframes timerPulse{
-
+@keyframes pulse{
     from{
         transform:scale(1);
     }
-
     to{
         transform:scale(1.08);
     }
@@ -395,7 +374,8 @@ body{
 ========================= */
 
 .question{
-    background:#fff7fa;
+
+    background:#fff5f8;
 
     border:3px solid #efc1d2;
 
@@ -403,17 +383,19 @@ body{
 
     padding:25px 10px;
 
-    font-size:31px;
+    font-size:30px;
 
     font-weight:900;
 
     margin-bottom:18px;
 
-    min-height:95px;
+    min-height:90px;
 
     display:flex;
-    justify-content:center;
+
     align-items:center;
+
+    justify-content:center;
 }
 
 
@@ -422,17 +404,24 @@ body{
 ========================= */
 
 .answers{
+
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap:10px;
 }
 
 .answer{
-    border:none;
+
+    border:3px solid transparent;
 
     border-radius:17px;
 
     padding:16px 8px;
+
+    min-height:65px;
 
     background:#f6c9dc;
 
@@ -447,51 +436,42 @@ body{
     transition:.15s;
 }
 
-.answer:hover{
-    transform:translateY(-2px);
-    background:#f2b8d2;
-}
-
 .answer:active{
-    transform:scale(.94);
+    transform:scale(.95);
 }
 
 .answer.correct{
-    background:#9be2ac;
-    animation:correctPop .35s;
+
+    background:#a9e8b5;
+
+    border-color:#55b96b;
 }
 
 .answer.wrong{
-    background:#f39a9a;
-    animation:wrongShake .35s;
+
+    background:#f3a0a0;
+
+    border-color:#dd5a5a;
 }
 
-@keyframes correctPop{
-
-    50%{
-        transform:scale(1.05);
-    }
+.answer:disabled{
+    cursor:default;
 }
 
-@keyframes wrongShake{
 
-    25%{
-        transform:translateX(-5px);
-    }
-
-    75%{
-        transform:translateX(5px);
-    }
-}
+/* =========================
+   MESSAGE
+========================= */
 
 .message{
+
     min-height:28px;
 
     margin-top:15px;
 
-    font-weight:900;
+    font-weight:bold;
 
-    color:#79576b;
+    font-size:15px;
 }
 
 
@@ -500,18 +480,39 @@ body{
 ========================= */
 
 .resultIcon{
-    font-size:70px;
-    margin-top:10px;
+
+    font-size:75px;
+
+    animation:resultPop .5s ease;
+}
+
+@keyframes resultPop{
+
+    0%{
+        transform:scale(.4);
+    }
+
+    70%{
+        transform:scale(1.15);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
 
 .resultTitle{
+
     color:#d34f82;
+
     font-size:32px;
+
     margin:8px 0;
 }
 
 .finalScore{
-    font-size:44px;
+
+    font-size:43px;
 
     font-weight:900;
 
@@ -520,20 +521,17 @@ body{
     margin:10px;
 }
 
-.resultCard{
-    background:#fff1f6;
+.resultBox{
+
+    background:#fff0f6;
 
     border-radius:20px;
 
     padding:15px;
 
-    margin:15px 0;
+    margin:18px 0;
 
-    line-height:1.8;
-}
-
-.resultButtons{
-    margin-top:15px;
+    line-height:2;
 }
 
 
@@ -548,7 +546,7 @@ body{
     }
 
     .logo{
-        font-size:31px;
+        font-size:32px;
     }
 
     .question{
@@ -569,28 +567,32 @@ body{
 <body>
 
 
-<!-- FLOATING BACKGROUND -->
+<!-- =========================
+     FLOATING OBJECTS
+========================= -->
 
 <div class="floating">
 
-    <span class="float" style="left:5%;animation-duration:9s;animation-delay:0s;">♡</span>
+    <div class="float" style="left:5%;font-size:25px;animation-duration:9s;animation-delay:0s;">♡</div>
 
-    <span class="float" style="left:17%;animation-duration:12s;animation-delay:2s;">+</span>
+    <div class="float" style="left:15%;font-size:18px;animation-duration:12s;animation-delay:2s;">+</div>
 
-    <span class="float" style="left:30%;animation-duration:10s;animation-delay:4s;">✦</span>
+    <div class="float" style="left:27%;font-size:28px;animation-duration:10s;animation-delay:4s;">♥</div>
 
-    <span class="float" style="left:45%;animation-duration:13s;animation-delay:1s;">×</span>
+    <div class="float" style="left:40%;font-size:20px;animation-duration:13s;animation-delay:1s;">×</div>
 
-    <span class="float" style="left:58%;animation-duration:9s;animation-delay:3s;">♡</span>
+    <div class="float" style="left:52%;font-size:25px;animation-duration:11s;animation-delay:5s;">÷</div>
 
-    <span class="float" style="left:70%;animation-duration:11s;animation-delay:5s;">÷</span>
+    <div class="float" style="left:64%;font-size:19px;animation-duration:14s;animation-delay:3s;">√</div>
 
-    <span class="float" style="left:84%;animation-duration:14s;animation-delay:1s;">♥</span>
+    <div class="float" style="left:76%;font-size:27px;animation-duration:10s;animation-delay:6s;">♡</div>
 
-    <span class="float" style="left:94%;animation-duration:10s;animation-delay:6s;">=</span>
+    <div class="float" style="left:88%;font-size:20px;animation-duration:12s;animation-delay:1s;">π</div>
 
 </div>
 
+
+<div class="page">
 
 <div class="container">
 
@@ -601,65 +603,50 @@ body{
 
 <div id="homeScreen">
 
-    <div class="homeDecor">
-        ✨ 🧮 ✨
-    </div>
-
     <div class="logo">
-        Ceya Math
-        <small>MATH CHALLENGE</small>
+        🧮 Ceya Math
     </div>
 
     <div class="subtitle">
-        A little challenge for you ♡
+        Math Challenge
     </div>
 
-    <div class="welcome">
-        Siap menguji seberapa cepat
-        otakmu berpikir? 🧠✨
+    <div class="homeText">
+
+        <p>
+            ✨ Siap menguji otakmu?
+        </p>
+
+        <div class="homeBubble">
+            Jawab secepat mungkin,
+            kumpulkan skor,
+            dan pertahankan combo! 💕
+        </div>
+
+        <div class="mystery">
+            💕 + √ + × + ⭐ + ÷
+        </div>
+
+        <p>
+            <b>15 soal</b>
+            <br>
+            <b>15 detik setiap soal</b>
+        </p>
+
     </div>
 
-    <div class="mysteryBox">
-
-        🎀 <b>15 soal rahasia</b> 🎀
-        <br><br>
-
-        Jangan khawatir...
-        Kamu tidak akan tahu
-        soal berikutnya sampai muncul! 👀
-
-    </div>
-
-    <div class="rules">
-
-        <div class="rule">
-            ⏱️ 15 detik
-        </div>
-
-        <div class="rule">
-            ⭐ Score
-        </div>
-
-        <div class="rule">
-            🔥 Combo
-        </div>
-
-        <div class="rule">
-            ❤️ 3 Lives
-        </div>
-
-    </div>
+    <br>
 
     <button
+        type="button"
         class="startButton"
         id="startButton">
 
-        START ✨
+        START 🎮
 
     </button>
 
 </div>
-
 
 
 <!-- =========================
@@ -676,67 +663,37 @@ body{
     <div class="stats">
 
         <div class="stat">
-
-            <span class="statTitle">
-                ⭐ SCORE
-            </span>
-
-            <span
-                class="statValue"
-                id="score">
-
-                0
-
-            </span>
-
+            ⭐ SCORE
+            <span id="score">0</span>
         </div>
 
 
         <div class="stat">
-
-            <span class="statTitle">
-                ❤️ LIVES
-            </span>
-
-            <div
-                class="hearts"
-                id="hearts">
-
-                <span class="heart">❤️</span>
-                <span class="heart">❤️</span>
-                <span class="heart">❤️</span>
-
-            </div>
-
+            ❤️ LIVES
+            <span id="lives">❤️ ❤️ ❤️</span>
         </div>
 
 
         <div class="stat">
-
-            <span class="statTitle">
-                🔥 COMBO
-            </span>
-
-            <span
-                class="statValue"
-                id="combo">
-
-                0
-
-            </span>
-
+            🔥 COMBO
+            <span id="combo">0</span>
         </div>
 
     </div>
 
 
-    <div class="questionInfo">
+    <div class="level">
 
-        SOAL
-        <span id="questionNumber">
-            1
+        <span
+            id="difficulty"
+            class="difficulty">
+            SD
         </span>
 
+        <br>
+
+        SOAL
+        <span id="questionNumber">1</span>
         / 15
 
     </div>
@@ -757,10 +714,7 @@ body{
         id="timerBox">
 
         ⏱️
-        <span id="timer">
-            15
-        </span>
-
+        <span id="timer">15</span>
         detik
 
     </div>
@@ -770,7 +724,7 @@ body{
         class="question"
         id="question">
 
-        1 + 1 = ?
+        25 + 37 = ?
 
     </div>
 
@@ -787,7 +741,6 @@ body{
     </div>
 
 </div>
-
 
 
 <!-- =========================
@@ -809,13 +762,13 @@ body{
         class="resultTitle"
         id="resultTitle">
 
-        YOU WIN!
+        YOU WIN! 🎉
 
     </h1>
 
 
     <p>
-        Hasil tantanganmu ✨
+        Skor akhir kamu:
     </p>
 
 
@@ -829,9 +782,9 @@ body{
     </div>
 
 
-    <div class="resultCard">
+    <div class="resultBox">
 
-        Jawaban benar:
+        📝 Jawaban benar:
         <b id="correctCount">
             0
         </b>
@@ -839,8 +792,7 @@ body{
 
         <br>
 
-        Combo terbaik:
-        🔥
+        🔥 Combo terbaik:
         <b id="bestCombo">
             0
         </b>
@@ -849,6 +801,7 @@ body{
 
 
     <button
+        type="button"
         class="startButton"
         id="restartButton">
 
@@ -860,13 +813,13 @@ body{
 
 
 </div>
+</div>
 
 
 <script>
 
-
 /* =========================
-   VARIABLES
+   GAME VARIABLES
 ========================= */
 
 let score = 0;
@@ -881,7 +834,7 @@ let correctCount = 0;
 
 let questionNumber = 0;
 
-let correctAnswer = 0;
+let correctAnswer = "";
 
 let time = 15;
 
@@ -891,12 +844,10 @@ let locked = false;
 
 
 /* =========================
-   QUESTIONS
+   QUESTION BANK
 ========================= */
 
 const questions = [
-
-    /* SD */
 
     {
         level:"SD",
@@ -934,8 +885,6 @@ const questions = [
     },
 
 
-    /* SMP */
-
     {
         level:"SMP",
         question:"2x + 6 = 16. Nilai x = ?",
@@ -971,8 +920,6 @@ const questions = [
         choices:[5,6,7,8]
     },
 
-
-    /* SMA */
 
     {
         level:"SMA",
@@ -1028,8 +975,17 @@ const questions = [
 
 
 /* =========================
-   ELEMENTS
+   GET ELEMENTS
 ========================= */
+
+const homeScreen =
+    document.getElementById("homeScreen");
+
+const gameScreen =
+    document.getElementById("gameScreen");
+
+const resultScreen =
+    document.getElementById("resultScreen");
 
 const startButton =
     document.getElementById("startButton");
@@ -1039,7 +995,7 @@ const restartButton =
 
 
 /* =========================
-   BUTTON
+   BUTTONS
 ========================= */
 
 startButton.addEventListener(
@@ -1059,6 +1015,8 @@ restartButton.addEventListener(
 
 function startGame(){
 
+    clearInterval(timer);
+
     score = 0;
 
     lives = 3;
@@ -1071,21 +1029,19 @@ function startGame(){
 
     questionNumber = 0;
 
+    correctAnswer = "";
+
+    time = 15;
+
     locked = false;
 
-    clearInterval(timer);
 
-    document.getElementById("homeScreen")
-        .style.display = "none";
+    homeScreen.style.display = "none";
 
-    document.getElementById("resultScreen")
-        .style.display = "none";
+    resultScreen.style.display = "none";
 
-    document.getElementById("gameScreen")
-        .style.display = "block";
+    gameScreen.style.display = "block";
 
-    document.getElementById("message")
-        .textContent = "";
 
     updateStats();
 
@@ -1102,33 +1058,24 @@ function updateStats(){
     document.getElementById("score")
         .textContent = score;
 
+
+    document.getElementById("lives")
+        .textContent =
+        "❤️ ".repeat(lives) +
+        "🖤 ".repeat(3 - lives);
+
+
     document.getElementById("combo")
         .textContent = combo;
+
 
     document.getElementById("questionNumber")
         .textContent = questionNumber;
 
+
     document.getElementById("progress")
         .style.width =
-        (questionNumber / 15 * 100) + "%";
-
-
-    const hearts =
-        document.querySelectorAll(".heart");
-
-    hearts.forEach((heart,index)=>{
-
-        if(index < lives){
-
-            heart.classList.remove("empty");
-
-        }else{
-
-            heart.classList.add("empty");
-
-        }
-
-    });
+        ((questionNumber / 15) * 100) + "%";
 }
 
 
@@ -1142,6 +1089,10 @@ function nextQuestion(){
 
     locked = false;
 
+    document.getElementById("message")
+        .textContent = "";
+
+
     if(questionNumber >= questions.length){
 
         winGame();
@@ -1149,13 +1100,374 @@ function nextQuestion(){
         return;
     }
 
+
     questionNumber++;
+
 
     const current =
         questions[questionNumber - 1];
 
 
+    document.getElementById("difficulty")
+        .textContent = current.level;
+
+
     document.getElementById("question")
         .textContent = current.question;
 
-   
+
+    correctAnswer = current.answer;
+
+
+    createAnswers(current.choices);
+
+
+    updateStats();
+
+
+    startTimer();
+}
+
+
+/* =========================
+   CREATE ANSWERS
+========================= */
+
+function createAnswers(choices){
+
+    const box =
+        document.getElementById("answers");
+
+
+    box.innerHTML = "";
+
+
+    const shuffled =
+        [...choices].sort(
+            () => Math.random() - 0.5
+        );
+
+
+    shuffled.forEach(function(choice){
+
+        const button =
+            document.createElement("button");
+
+
+        button.type = "button";
+
+        button.className = "answer";
+
+        button.textContent = choice;
+
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                checkAnswer(
+                    choice,
+                    button
+                );
+
+            }
+        );
+
+
+        box.appendChild(button);
+
+    });
+}
+
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function checkAnswer(choice,button){
+
+    if(locked){
+        return;
+    }
+
+
+    locked = true;
+
+    clearInterval(timer);
+
+
+    const buttons =
+        document.querySelectorAll(".answer");
+
+
+    buttons.forEach(function(btn){
+
+        btn.disabled = true;
+
+    });
+
+
+    if(
+        String(choice) ===
+        String(correctAnswer)
+    ){
+
+        button.classList.add("correct");
+
+
+        correctCount++;
+
+
+        combo++;
+
+
+        if(combo > bestCombo){
+
+            bestCombo = combo;
+
+        }
+
+
+        const points =
+            10 + (combo * 5);
+
+
+        score += points;
+
+
+        document.getElementById("message")
+            .textContent =
+            "✨ BENAR! +" +
+            points +
+            " ⭐";
+
+
+        updateStats();
+
+
+        setTimeout(
+            nextQuestion,
+            700
+        );
+
+    }
+
+    else{
+
+        button.classList.add("wrong");
+
+
+        lives--;
+
+        combo = 0;
+
+
+        document.getElementById("message")
+            .textContent =
+            "❌ Jawaban salah!";
+
+
+        updateStats();
+
+
+        if(lives <= 0){
+
+            setTimeout(
+                gameOver,
+                700
+            );
+
+        }
+
+        else{
+
+            setTimeout(
+                nextQuestion,
+                700
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function startTimer(){
+
+    clearInterval(timer);
+
+
+    time = 15;
+
+
+    const timerText =
+        document.getElementById("timer");
+
+
+    const timerBox =
+        document.getElementById("timerBox");
+
+
+    timerText.textContent = time;
+
+
+    timerBox.classList.remove("warning");
+
+
+    timer = setInterval(function(){
+
+        time--;
+
+
+        timerText.textContent = time;
+
+
+        if(time <= 5){
+
+            timerBox.classList.add(
+                "warning"
+            );
+
+        }
+
+
+        if(time <= 0){
+
+            clearInterval(timer);
+
+
+            if(locked){
+                return;
+            }
+
+
+            locked = true;
+
+
+            lives--;
+
+            combo = 0;
+
+
+            document.getElementById("message")
+                .textContent =
+                "⏰ WAKTU HABIS!";
+
+
+            updateStats();
+
+
+            if(lives <= 0){
+
+                setTimeout(
+                    gameOver,
+                    700
+                );
+
+            }
+
+            else{
+
+                setTimeout(
+                    nextQuestion,
+                    700
+                );
+
+            }
+
+        }
+
+    },1000);
+}
+
+
+/* =========================
+   WIN
+========================= */
+
+function winGame(){
+
+    clearInterval(timer);
+
+
+    gameScreen.style.display =
+        "none";
+
+
+    resultScreen.style.display =
+        "block";
+
+
+    document.getElementById("resultIcon")
+        .textContent = "🏆";
+
+
+    document.getElementById("resultTitle")
+        .textContent =
+        "YOU WIN! 🎉";
+
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+
+    document.getElementById("correctCount")
+        .textContent =
+        correctCount;
+
+
+    document.getElementById("bestCombo")
+        .textContent =
+        bestCombo;
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function gameOver(){
+
+    clearInterval(timer);
+
+
+    gameScreen.style.display =
+        "none";
+
+
+    resultScreen.style.display =
+        "block";
+
+
+    document.getElementById("resultIcon")
+        .textContent = "💔";
+
+
+    document.getElementById("resultTitle")
+        .textContent =
+        "GAME OVER";
+
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+
+    document.getElementById("correctCount")
+        .textContent =
+        correctCount;
+
+
+    document.getElementById("bestCombo")
+        .textContent =
+        bestCombo;
+}
+
+</script>
+
+</body>
+    </html>
