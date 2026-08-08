@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ceya Math 🧮💗</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #ffd9e8,
+        #eadcff
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.game {
+    width: 100%;
+    max-width: 450px;
+
+    background: white;
+
+    border-radius: 30px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(100, 60, 100, 0.18);
+}
+
+h1 {
+    color: #d64f82;
+
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #777;
+}
+
+.stats {
+    display: flex;
+
+    justify-content: space-around;
+
+    background: #fff0f6;
+
+    padding: 15px;
+
+    border-radius: 18px;
+
+    margin: 20px 0;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+.level {
+    color: #9a6380;
+
+    margin: 15px;
+}
+
+.question {
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #3f3540;
+
+    margin: 30px 0;
+}
+
+.answers {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+}
+
+.answer {
+    border: none;
+
+    border-radius: 15px;
+
+    padding: 16px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    background: #f5c9dc;
+
+    color: #573d4b;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.answer:active {
+    transform: scale(0.94);
+}
+
+.answer:hover {
+    background: #efa8c4;
+}
+
+.correct {
+    background: #9be7b0 !important;
+}
+
+.wrong {
+    background: #f29b9b !important;
+}
+
+.start {
+    border: none;
+
+    padding: 15px 40px;
+
+    border-radius: 30px;
+
+    background: #d64f82;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.start:active {
+    transform: scale(0.95);
+}
+
+#message {
+    min-height: 25px;
+
+    margin-top: 20px;
+
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.big {
+    font-size: 65px;
+}
+
+.timer {
+    color: #d64f82;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="game">
+
+    <!-- HALAMAN AWAL -->
+
+    <div id="home">
+
+        <div class="big">
+            🧮
+        </div>
+
+        <h1>
+            Ceya Math 💗
+        </h1>
+
+        <p class="subtitle">
+            Tantang kemampuan matematikamu!
+        </p>
+
+        <p>
+            Jawab soal dengan benar,
+            kumpulkan ⭐ dan naikkan level!
+        </p>
+
+        <br>
+
+        <button
+            class="start"
+            id="startButton">
+
+            START 🎮
+
+        </button>
+
+    </div>
+
+
+    <!-- GAME -->
+
+    <div id="game" class="hidden">
+
+        <h1>
+            🧮 Ceya Math
+        </h1>
+
+
+        <div class="stats">
+
+            <span>
+                ⭐
+                <span id="score">
+                    0
+                </span>
+            </span>
+
+
+            <span>
+                ❤️
+                <span id="lives">
+                    3
+                </span>
+            </span>
+
+
+            <span>
+                ⏱️
+                <span
+                    id="timer"
+                    class="timer
